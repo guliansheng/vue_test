@@ -12,18 +12,13 @@
   </div>
 </template>
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex'
 export default {
-  props: {
-    comments: {
-      type: Array
-    }
-  },
   methods: {
-    removeComment (index) {
-      if (confirm('确认删除评论吗?')) {
-        this.comments.splice(index, 1)
-      }
-    }
+    ...mapActions(['removeComment'])
+  },
+  computed:{
+    ...mapState(['comments'])
   }
 }
 </script>

@@ -18,5 +18,19 @@ export default {
     setTimeout(()=>{
       commit('ADD')
     },1000)
-  }
+  },
+  // Message 添加留言
+  addChat ({commit,state},comment) {
+    if (!comment.name || !comment.say) {
+      alert('用户名和内容不能为空')
+      return
+    }
+    commit('ADDCHAT',comment)
+  },
+  // Message 删除留言
+  removeComment ({commit,state},index) {
+      if (confirm('确认删除评论吗?')) {
+        state.comments.splice(index, 1)
+      }
+    }
 }

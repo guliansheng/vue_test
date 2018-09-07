@@ -1,33 +1,32 @@
 <template>
-  <div class="addchat" @keydown.ctrl.13 = 'addChat'>
+  <div class="addchat" @keydown.ctrl.13 = 'addChat(comment);blur1.blur();blur2.blur()'>
       <p>用户名</p>
-      <input type="text" placeholder = "用户名" v-model.trim = 'comment.name'>
+      <input type="text" placeholder = "用户名" v-model.trim = 'comment.name' ref = 'blur1'>
       <p>评论内容</p>
-      <textarea placeholder = "评论内容" v-model.trim = 'comment.say'></textarea>
-      <button @click = 'addChat'>提交</button>
+      <textarea placeholder = "评论内容" v-model.trim = 'comment.say' ref = 'blur2'></textarea>
+      <button @click = 'addChat(comment);blur1.blur();blur2.blur()'>提交</button>
   </div>
 </template>
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex'
 export default{
   data () {
     return {
-      comment: {}
+      blur1: null,
+      blur2: null
     }
   },
   methods: {
-    addChat () {
-      if (!this.comment.name || !this.comment.say) {
-        alert('用户名和内容不能为空')
-        return
-      }
-      this.addComment(this.comment)
-      this.comment = {}
-    }
+    ...mapActions(['addChat'])
   },
-  props: {
-    addComment: {
-      type: Function
-    }
+  computed: {
+    ...mapState(['comment'])
+  },
+  created: function() {
+　　this.$nextTick(() => {
+      this.blur1 = this.$refs.blur1
+      this.blur2 = this.$refs.blur2
+　　})
   }
 }
 </script>
